@@ -536,9 +536,9 @@ function Body() {
           </div>
         </div>
       )}
-      {/* <footer className="w-full h-[200px] bg-black mt-5 flex items-center justify-center">
+      <footer className="w-full h-[200px] bg-black mt-5 flex items-center justify-center">
         <img src={pac} alt="" className="w-[600px] h-[180px]" />
-      </footer> */}
+      </footer>
 
       {address && (
         <div className="fixed inset-0 z-10 ">
