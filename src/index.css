@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'leaflet/dist/leaflet.css';
-
 .bla {
   accent-color: black;
   height: 20px;
@@ -11,3 +9,14 @@
 
 
 
+/* DateRangePicker.css */
+.custom-date-range-picker .rdrSelected {
+  background-color: black !important;
+}
+
+.custom-date-range-picker .rdrStartEdge,
+.custom-date-range-picker .rdrEndEdge,
+.custom-date-range-picker .rdrInRange {
+  background: black !important;
+  color: white !important;
+}
