@@ -100,7 +100,7 @@ function Body() {
         setIsMinimized(true);
         setAddress(false);
         setDate(false);
-        setGuest(false)
+        setGuest(false);
       } else {
         setIsMinimized(false);
       }
@@ -134,8 +134,8 @@ function Body() {
       setDate(false);
       setAddress(true);
     }
-    if(guest==true){
-      setGuest(false)
+    if (guest == true) {
+      setGuest(false);
     }
   };
   const [inputValue, setInputValue] = useState("");
@@ -151,26 +151,33 @@ function Body() {
     setDate(true);
   };
 
-  const [selectionRange, setSelectionRange] = useState({
+  // const [dateValue, setDateValue] = useState("Add dates");
+  // const [selectdate, setSelectDate] = useState(null);
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [inValue, setInValue] = useState("");
+  const [outValue, setOutValue] = useState("");
+
+  const [selectionRange,setSelectionRange] =useState( {
     startDate: new Date(),
     endDate: new Date(),
     key: "selection",
   });
-
   const handleSelect = (ranges) => {
-    let { startDate, endDate } = ranges.selection;
-
-    if (startDate > endDate) {
-      [startDate, endDate] = [endDate, startDate];
-    }
-
+    const { startDate, endDate } = ranges.selection;
+    const formattedStartDate = startDate.toLocaleDateString();
+    const formattedEndDate = endDate.toLocaleDateString();
+    setSelectedDate({ startDate, endDate });
+    setInValue(formattedStartDate);
+    setOutValue(formattedEndDate);
     setSelectionRange({ ...selectionRange, startDate, endDate });
   };
-  const formatDate = (date) => {
-    return date
-      ? date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
-      : "Add dates";
-  };
+
+  // const formatDate = (date) => {
+  //   return date
+  //     ? date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+  //     : "Add dates";
+  // };
 
   const [date, setDate] = useState(false);
   const openDate = (e) => {
@@ -187,19 +194,48 @@ function Body() {
     }
   };
 
-  const clearCheckIn = () => {
-    setSelectionRange({
-      startDate: null,
-      endDate: null,
-      key: "selection",
-    });
-  };
-  const clearCheckOut = () => {
-    setSelectionRange({
+  const clearCheckIn = (e) => {
+    setInValue("");
+    if (date == true) {
+      setDate(true);
+      e.stopPropagation();
+    }
+    setSelectionRange(
+    {
       startDate: new Date(),
-      endDate: null,
+      endDate: new Date(),
       key: "selection",
-    });
+    }
+    );
+  };
+  const clearCheckOut = (e) => {
+    setOutValue("");
+    if (date == true) {
+      setDate(true);
+      e.stopPropagation();
+    }
+    setSelectionRange(
+      {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+      }
+      );
+  };
+  const clearCheckDate = () => {
+    setOutValue("");
+    setInValue("");
+    if (date == true) {
+      setDate(true);
+      e.stopPropagation();
+    }
+    setSelectionRange(
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    }
+    );
   };
 
   const [guest, setGuest] = useState(false);
@@ -207,11 +243,11 @@ function Body() {
     if (date == true) {
       setDate(false);
     }
-    if(address==true){
-      setAddress(false)
+    if (address == true) {
+      setAddress(false);
     }
-    if(isMinimized==true){
-      setIsMinimized(false)
+    if (isMinimized == true) {
+      setIsMinimized(false);
     }
 
     setGuest(!guest);
@@ -230,7 +266,7 @@ function Body() {
   };
   const dec1 = () => {
     if (count1 > 0) {
-      setCount1(count2 - 1);
+      setCount1(count1 - 1);
     }
   };
   const inc1 = () => {
@@ -256,15 +292,8 @@ function Body() {
   const animalImg = () => {
     setAnimal(!animal);
     setGuest(false);
-   
   };
- const clearCheckDate=()=>{
-    setSelectionRange({
-      startDate: null,
-      endDate: null,
-      key: "",
-    });
-  }
+
   // MaterialUI | ReactJs | CALENDAR
 
   return (
@@ -360,7 +389,7 @@ function Body() {
 
           {exp && (
             <div
-            onClick={openDate}
+              onClick={openDate}
               className={`h-full relative ${
                 isMinimized
                   ? "items-center"
@@ -378,22 +407,26 @@ function Body() {
                 <input
                   type="text"
                   className="outline-none bg-inherit w-full"
-                  placeholder="Add dates"
-                  value={`${formatDate(selectionRange.startDate)}-${formatDate(selectionRange.endDate)}`}
+                  value={`${inValue} ${
+                    inValue && outValue ? "-" : "Add dates"
+                  } ${outValue}`}
                   readOnly
+                  placeholder="Add dates"
                 />
               )}
-            {!isMinimized
-                ? selectionRange.endDate && (
-                    <div
-                      onClick={clearCheckDate}
-                      className={`${
-                        isMinimized ? "hidden" : ""
-                      } w-5 h-5 flex items-center justify-center rounded-full absolute top-[35%]  text-white right-4 bg-stone-700`}
-                    >
-                      x
-                    </div>
-                  )
+              {!isMinimized
+                ? inValue
+                  ? outValue && (
+                      <div
+                        onClick={clearCheckDate}
+                        className={`${
+                          isMinimized ? "hidden" : ""
+                        } w-5 h-5 flex items-center justify-center rounded-full absolute top-[35%]  text-white right-4 bg-stone-700`}
+                      >
+                        x
+                      </div>
+                    )
+                  : ""
                 : ""}
             </div>
           )}
@@ -419,11 +452,11 @@ function Body() {
                     type="text"
                     className="outline-none bg-inherit w-full hover:cursor-pointer"
                     placeholder="Add dates"
-                    value={formatDate(selectionRange.startDate)}
+                    value={inValue}
                     readOnly
                   />
                 )}
-                {selectionRange.startDate && (
+                {inValue && (
                   <div
                     onClick={clearCheckIn}
                     className={`${
@@ -459,16 +492,16 @@ function Body() {
                 onClick={clearCheckIn}
                 className="outline-none bg-inherit w-full hover:cursor-pointer"
                 placeholder="Add dates"
-                value={formatDate(selectionRange.endDate)}
+                value={outValue}
                 readOnly
               />
               {!isMinimized
-                ? selectionRange.endDate && (
+                ? outValue && (
                     <div
                       onClick={clearCheckOut}
                       className={`${
                         isMinimized ? "hidden" : ""
-                      } w-5 h-5 flex items-center justify-center rounded-full absolute top-[35%]  text-white right-1 bg-stone-700`}
+                      } w-5 h-5 flex items-center justify-center  rounded-full absolute top-[35%]  text-white right-1 bg-stone-700`}
                     >
                       x
                     </div>
@@ -727,9 +760,11 @@ function Body() {
           </div>
         </div>
       )}
-      {/* <footer className="w-full h-[200px] bg-black mt-5 flex items-center justify-center">
-        <p className="text-[40px] text-white"><i>this is fute</i></p>
-      </footer> */}
+      <footer className="w-full h-[200px] bg-black mt-5 flex items-center justify-center">
+        <p className="text-[40px] text-white">
+          <i>this is fute</i>
+        </p>
+      </footer>
 
       {address && (
         <div className="fixed inset-0 z-10 ">
