@@ -303,7 +303,7 @@ function Body() {
           isMinimized ? "relative h-[100px]" : " h-[180px]"
         }  z-20 w-full bg-white grid grid-cols-1 place-items-center`}
       >
-        <div className=" z-30 w-full h-[90px] px-10   flex items-center  justify-between ">
+        <div className=" z-30 w-full h-[90px]  px-10 flex items-center  justify-between ">
           <Link to={"/"}>
             <div className="flex items-center justify-center">
               <FaAirbnb className="text-red-500 w-10 h-10" />
@@ -351,7 +351,7 @@ function Body() {
         <div
           className={`   z-30 transition-all duration-300 ${
             isMinimized
-              ? "h-[50px] w-[30%] absolute top-6 "
+              ? "h-[50px] w-[30%]  absolute sm:top-6 "
               : "h-[70px] w-[65%]  bg-white"
           } rounded-[50px] border-[2px] flex items-center justify-between hover:cursor-pointer gap-2 shadow-md group`}
         >
